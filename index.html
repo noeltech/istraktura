@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.css' rel='stylesheet' />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <title>Awesome City Buildings</title>
+  </head>
+  <body>
+
+    <main>
+      <div  id="map">
+        <div id="branding-parent">
+          <div id="company-logo" >
+            <img id="company-logo" src="images/logo.png" alt="Noeltech" >
+          </div>
+          <h2 id="app-title" class="branding-child">Awesome City's Buildings</h2>
+          <input id="building-search"type="text" name="building-search" value="Search" class ="branding-child" >
+        </div>
+        <div id="classify-menu" class="overlay-bottom">
+          <ul id=classify-list>
+            <li onclick=ShowLayer(0) class="not-click" value=0>RCI Type</li>
+            <li onclick=ShowLayer(1) class="not-click" value=1>Age</li>
+            <li onclick=ShowLayer(2) class="not-click" value=2>Storey</li>
+            <li onclick=ShowLayer(3) class="not-click" value=3>Materials</li>
+            <li onclick=ShowLayer(4) class="not-click" value=4>Earthquake Proof</li>
+            <li onclick=ShowLayer(5) class="not-click" value=5>Hurricane Proof</li>
+            <li onclick=ShowLayer(6) class="not-click" value=6>Tax Payment</li>
+          </ul>
+        </div>
+        <div id="rci-info-overlay" class="classify-info" >
+          <h2>RCI Type Buildings</h2>
+          <canvas id="rci-chart" width="270" height="150"></canvas>
+          <canvas id="rci-chart_2" width="270" height="150"></canvas>
+          <div class="child-info_3">
+            <h3>Buildings Type Count</h3>
+            <p>Residential:<span id="res-count">9,456</span></p>
+            <p>Commercial:<span id="com-count">2,457</span></p>
+            <p>Industrial:<span id="ind-count">1,347</span></></p>
+            <p>City Services:<span id="serv-count">945</span></p>
+          </div>
+        </div>
+        <div id="age-info-overlay" class="classify-info" >
+          <h2>Age oF Buildings</h2>
+          <canvas id="age-chart" width="270" height="150"></canvas>
+          <canvas id="age-chart_2" width="270" height="150"></canvas>
+          <h3 id="age-info-heading">Building Count by Age</h3>
+          <div class="age-info" style="float:left">
+            <p>10 years:<span>1,563</span></p>
+            <p>20 years:<span>3,266</span></p>
+            <p>40 years:<span>2,311</span></p>
+            <p>60 years:<span>1,456</span></p>
+
+          </div>
+          <div class="age-info"style="float:right">
+            <p>80 years:<span>800</span></p>
+            <p>100 years:<span>7,562</span></p>
+            <p>120 years:<span>2,144</span></p>
+          </div>
+        </div>
+        <div id="storey-info-overlay" class="classify-info" >
+          <h2>Building by Storey</h2>
+          <canvas id="storey-chart" width="270" height="150"></canvas>
+          <canvas id="storey-chart_2" width="270" height="150"></canvas>
+          <h3 id="age-info-heading">Building Count by Storey</h3>
+          <div class="age-info" style="float:left">
+            <p>1 storey:<span>7,664</span></p>
+            <p>2 storey:<span>3,266</span></p>
+            <p>6 storey:<span>1,566</span></p>
+            <p>10 storey:<span>833</span></p>
+          </div>
+          <div class="age-info"style="float:right">
+            <p>20 storey:<span>90</span></p>
+            <p>25 storey:<span>2</span></p>
+            <p>35 storey:<span>1</span></p>
+          </div>
+        </div>
+        <div id="mater-info-overlay" class="classify-info" >
+          <h2>Buildings By Materials</h2>
+          <canvas id="mater-chart" width="270" height="150"></canvas>
+          <canvas id="mater-chart_2" width="270" height="150"></canvas>
+          <div class="child-info_3">
+            <h3>Buildings Count by Materials</h3>
+            <p>Concrete:<span id="res-count">7,814</span></p>
+            <p>Non-Concrete:<span id="com-count">5,677</span></p>
+          </div>
+        </div>
+        <div id="eq-info-overlay" class="classify-info" >
+          <h2>Earthquake Proof Buildings</h2>
+          <canvas id="eq-chart" width="270" height="150"></canvas>
+          <canvas id="eq-chart_2" width="270" height="150"></canvas>
+          <div class="child-info_3">
+            <h3>Buildings Count by Earthquake Proof</h3>
+            <p>Earthquake Proof:<span id="res-count">5,984</span></p>
+            <p>Non-Earthquake Proof:<span id="com-count">7,123</span></p>
+          </div>
+        </div>
+        <div id="hurr-info-overlay" class="classify-info" >
+          <h2>Hurricane Proof Buildings</h2>
+          <canvas id="hurr-chart" width="270" height="150"></canvas>
+          <canvas id="hurr-chart_2" width="270" height="150"></canvas>
+          <div class="child-info_3">
+            <h3>Buildings Count by Hurricane Proof</h3>
+            <p>Hurricane Proof:<span id="res-count">7891</span></p>
+            <p>Non-Hurricane Proof:<span id="com-count">5,123</span></p>
+          </div>
+        </div>
+        <div id="tax-info-overlay" class="classify-info" >
+          <h2>Tax Payments (2017)</h2>
+          <canvas id="tax-chart" width="270" height="150"></canvas>
+          <canvas id="tax-chart_2" width="270" height="150"></canvas>
+          <div class="child-info_3">
+            <h3>Tax Payments</h3>
+            <p>Paid Buildings:<span id="res-count">9,565</span></p>
+            <p>Non-Paid Buildings:<span id="com-count">3,457</span></p>
+            <p>Exempted Buldings:<span id="com-count">956</span></p>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+    <script  src="/main.js"></script>
+</html>
